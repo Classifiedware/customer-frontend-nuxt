@@ -5,7 +5,7 @@
     <div class="container my-5">
       <div class="row">
 
-        <div class="col-12" v-for="property in properties">
+        <div class="col-12 mt-4" v-for="property in properties">
           <div class="card">
             <div class="card-body">
               <h4 class="card-title pb-2 border-bottom">{{ property.name }}</h4>
@@ -23,6 +23,29 @@
                     <select id="selectManufacturer" class="form-select">
                       <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
                     </select>
+                  </div>
+
+                  <div v-if="groupOption.type === 'selectRange'">
+
+                    <div class="row">
+                      <label class="font-bold">{{ groupOption.name }}</label>
+
+                      <div class="col">
+                        <select :id="`selectRange-${groupOption.id}-from`" class="form-select">
+                          <option selected>von</option>
+                          <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                        </select>
+                      </div>
+
+                      <div class="col">
+                        <select :id="`selectRange-${groupOption.id}-to`" class="form-select">
+                          <option selected>bis</option>
+                          <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                        </select>
+                      </div>
+
+                    </div>
+
                   </div>
 
                   <div class="mb-3" v-if="groupOption.type === 'multiSelect'">
