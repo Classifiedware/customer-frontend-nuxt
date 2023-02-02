@@ -5,73 +5,55 @@
     <div class="container my-5">
       <div class="row">
 
-        <div class="col-12">
+        <div class="col-12" v-for="property in properties">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title pb-2 border-bottom">Fahrzeugzustand</h4>
+              <h4 class="card-title pb-2 border-bottom">{{ property.name }}</h4>
 
               <div class="row">
-                <div class="col-md-4">
-                  <div class="mb-3 form-check">
+
+                <div class="col-md-4" v-for="groupOption in property.groupOptions">
+                  <div class="mb-3 form-check" v-if="groupOption.type === 'checkbox'">
                     <input type="checkbox" class="form-check-input" id="option1">
-                    <label class="form-check-label" for="option1">Option 1</label>
+                    <label class="form-check-label" for="option1">{{ groupOption.name }}</label>
                   </div>
-                </div>
 
-                <div class="col-md-4">
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="option2">
-                    <label class="form-check-label" for="option2">Option 1</label>
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="option3">
-                    <label class="form-check-label" for="option3">Option 1</label>
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="option4">
-                    <label class="form-check-label" for="option4">Option 1</label>
-                  </div>
-                </div>
-
-                <div class="col-md-4">
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="option5">
-                    <label class="form-check-label" for="option5">Option 1</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 mt-4">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title pb-2 border-bottom">Marke, Modell, Variante</h4>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="selectManufacturer" class="form-label">Marke</label>
+                  <div class="mb-3" v-if="groupOption.type === 'select'">
+                    <label for="selectManufacturer" class="form-label">{{ groupOption.name }}</label>
                     <select id="selectManufacturer" class="form-select">
-                      <option>Option 1</option>
+                      <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
                     </select>
                   </div>
-                </div>
 
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="selectModel" class="form-label">Modell</label>
-                    <select id="selectModel" class="form-select">
-                      <option>Option 1</option>
-                    </select>
+                  <div class="mb-3" v-if="groupOption.type === 'multiSelect'">
+                    <div class="accordion" :id="`accordion-${groupOption.id}`">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" :id="`accordion-${groupOption.id}-heading`">
+                          <button class="accordion-button"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  :data-bs-target="`accordion-${groupOption.id}-collapse`"
+                                  aria-expanded="true"
+                                  :aria-controls="`accordion-${groupOption.id}-collapse`">
+                            {{ groupOption.name }}
+                          </button>
+                        </h2>
+                        <div :id="`accordion-${groupOption.id}-collapse`"
+                             class="accordion-collapse collapse show"
+                             :aria-labelledby="`accordion-${groupOption.id}-heading`"
+                             :data-bs-parent="`#accordion-${groupOption.id}`">
+                          <div class="accordion-body">
+                            <div class="mb-3 form-check" v-for="optionValue in groupOption.optionValues">
+                              <input type="checkbox" class="form-check-input"
+                                     :id="`accordion-${groupOption.id}-option-value-${optionValue.id}`">
+                              <label class="form-check-label" for="option1">{{ optionValue.value }}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                 </div>
 
               </div>
@@ -92,8 +74,17 @@
 <script>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import {defineNuxtComponent} from "nuxt/app";
 
-export default {
-  components: {Footer, Header}
-}
+export default defineNuxtComponent({
+  components: {Footer, Header},
+  fetchKey: 'properties',
+  async asyncData() {
+    const propertiesResponse = await $fetch('http://classifiedware-api.test/customer-frontend-api/search/property/options');
+
+    return {
+      properties: propertiesResponse.data
+    }
+  }
+})
 </script>
