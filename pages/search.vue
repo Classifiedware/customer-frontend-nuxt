@@ -25,6 +25,15 @@
                     </select>
                   </div>
 
+                  <div v-if="groupOption.type === 'checkboxGroup'">
+                    <label>{{ groupOption.name }}</label>
+
+                    <div class="mb-3 form-check" v-for="optionValue in groupOption.optionValues">
+                      <input type="checkbox" class="form-check-input" id="option1">
+                      <label class="form-check-label" for="option1">{{ optionValue.value }}</label>
+                    </div>
+                  </div>
+
                   <div v-if="groupOption.type === 'selectRange'">
 
                     <div class="row">
