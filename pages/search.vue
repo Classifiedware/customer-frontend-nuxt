@@ -25,10 +25,11 @@
                   </template>
 
                   <template v-if="groupOption.type === 'select'">
-                    <div class="col-md-3 col-sm-6">
-                      <div class="mb-3">
-                        <label :for="`select-${groupOption.id}`" class="form-label">{{ groupOption.name }}</label>
+                    <div class="col-md-4 col-sm-6">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">{{ groupOption.name }}</span>
                         <select :id="`select-${groupOption.id}`" class="form-select">
+                          <option value="">beliebig</option>
                           <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
                         </select>
                       </div>
@@ -36,27 +37,33 @@
                   </template>
 
                   <template v-if="groupOption.type === 'selectRange'">
-                    <label class="font-bold">{{ groupOption.name }}</label>
+                    <label class="fw-bold">{{ groupOption.name }}</label>
 
                     <div class="col-md-3 col-sm-6">
-                      <select :id="`selectRange-${groupOption.id}-from`" class="form-select">
-                        <option selected>von</option>
-                        <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
-                      </select>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">von</span>
+                        <select :id="`selectRange-${groupOption.id}-from`" class="form-select">
+                          <option value="">beliebig</option>
+                          <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6">
-                      <select :id="`selectRange-${groupOption.id}-to`" class="form-select">
-                        <option selected>bis</option>
-                        <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
-                      </select>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">bis</span>
+                        <select :id="`selectRange-${groupOption.id}-to`" class="form-select">
+                          <option value="">beliebig</option>
+                          <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                        </select>
+                      </div>
                     </div>
                   </template>
 
                   <template v-if="groupOption.type === 'checkboxGroup'">
-                    <label>{{ groupOption.name }}</label>
+                    <label class="fw-bold">{{ groupOption.name }}</label>
 
-                    <div class="col-md-4" v-for="optionValue in groupOption.optionValues">
+                    <div class="col-md-3 col-sm-6" v-for="optionValue in groupOption.optionValues">
                       <div class="mb-3 form-check">
                         <input type="checkbox"
                                class="form-check-input"
@@ -85,7 +92,8 @@
                       </button>
                     </li>
                   </ul>
-                  <div class="tab-content" :id="`tab-property-${property.id}-content`" v-for="(option, index) in property.groupOptions">
+                  <div class="tab-content" :id="`tab-property-${property.id}-content`"
+                       v-for="(option, index) in property.groupOptions">
                     <div :class="`${index === 0 ? 'tab-pane fade show active' : 'tab-pane fade'}`"
                          :id="`${option.id}-tab-pane`"
                          role="tabpanel"
