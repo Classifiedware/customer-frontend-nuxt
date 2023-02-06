@@ -33,24 +33,7 @@
                     </div>
                   </template>
 
-                  <template v-if="groupOption.type === 'checkboxGroup'">
-                    <label>{{ groupOption.name }}</label>
-
-                    <div class="col-md-4" v-for="optionValue in groupOption.optionValues">
-                      <div class="mb-3 form-check">
-                        <input type="checkbox"
-                               class="form-check-input"
-                               :id="`checkbox-${groupOption.id}-option-value-${optionValue.id}`">
-                        <label class="form-check-label"
-                               :for="`checkbox-${groupOption.id}-option-value-${optionValue.id}`">
-                          {{ optionValue.value }}
-                        </label>
-                      </div>
-                    </div>
-                  </template>
-
                   <template v-if="groupOption.type === 'selectRange'">
-                    <div class="row">
                       <label class="font-bold">{{ groupOption.name }}</label>
 
                       <div class="col-md-3 col-sm-6">
@@ -65,6 +48,21 @@
                           <option selected>bis</option>
                           <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
                         </select>
+                      </div>
+                  </template>
+
+                  <template v-if="groupOption.type === 'checkboxGroup'">
+                    <label>{{ groupOption.name }}</label>
+
+                    <div class="col-md-4" v-for="optionValue in groupOption.optionValues">
+                      <div class="mb-3 form-check">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               :id="`checkbox-${groupOption.id}-option-value-${optionValue.id}`">
+                        <label class="form-check-label"
+                               :for="`checkbox-${groupOption.id}-option-value-${optionValue.id}`">
+                          {{ optionValue.value }}
+                        </label>
                       </div>
                     </div>
                   </template>
