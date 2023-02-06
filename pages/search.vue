@@ -70,7 +70,7 @@
                   </template>
                 </template>
 
-                <template v-if="property.id === 78">
+                <template v-if="property.isEquipmentGroup">
                   <ul class="nav nav-tabs" :id="`tab-property-${property.id}`" role="tablist">
                     <li class="nav-item" role="presentation" v-for="(option, index) in property.groupOptions">
                       <button :class="`${index === 0 ? 'nav-link active' : 'nav-link'}`"
