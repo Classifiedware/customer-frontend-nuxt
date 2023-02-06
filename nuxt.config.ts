@@ -12,6 +12,10 @@ export default defineNuxtConfig({
                 { name: 'description', content: 'Classifiedware' },
                 { name: 'theme-color', content: '#712cf9' }
             ],
+            script: [
+                // <script src="https://myawesome-lib.js"></script>
+                { src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js' }
+            ],
             noscript: [
                 // <noscript>JavaScript is required</noscript>
                 { children: 'JavaScript is required' }

@@ -17,7 +17,9 @@
                     <div class="col-md-3 col-sm-6">
                       <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" :id="`checkbox-${groupOption.id}`">
-                        <label class="form-check-label" :for="`checkbox-${groupOption.id}`">{{ groupOption.name }}</label>
+                        <label class="form-check-label" :for="`checkbox-${groupOption.id}`">{{
+                            groupOption.name
+                          }}</label>
                       </div>
                     </div>
                   </template>
@@ -34,21 +36,21 @@
                   </template>
 
                   <template v-if="groupOption.type === 'selectRange'">
-                      <label class="font-bold">{{ groupOption.name }}</label>
+                    <label class="font-bold">{{ groupOption.name }}</label>
 
-                      <div class="col-md-3 col-sm-6">
-                        <select :id="`selectRange-${groupOption.id}-from`" class="form-select">
-                          <option selected>von</option>
-                          <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
-                        </select>
-                      </div>
+                    <div class="col-md-3 col-sm-6">
+                      <select :id="`selectRange-${groupOption.id}-from`" class="form-select">
+                        <option selected>von</option>
+                        <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                      </select>
+                    </div>
 
-                      <div class="col-md-3 col-sm-6">
-                        <select :id="`selectRange-${groupOption.id}-to`" class="form-select">
-                          <option selected>bis</option>
-                          <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
-                        </select>
-                      </div>
+                    <div class="col-md-3 col-sm-6">
+                      <select :id="`selectRange-${groupOption.id}-to`" class="form-select">
+                        <option selected>bis</option>
+                        <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                      </select>
+                    </div>
                   </template>
 
                   <template v-if="groupOption.type === 'checkboxGroup'">
@@ -66,49 +68,49 @@
                       </div>
                     </div>
                   </template>
+                </template>
 
-                  <template v-if="groupOption.type === 'multiSelect'">
-                    <div class="mb-3">
-                      <div class="accordion" :id="`accordion-${groupOption.id}`">
-                        <div class="accordion-item">
-                          <h2 class="accordion-header" :id="`accordion-${groupOption.id}-heading`">
-                            <button class="accordion-button"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    :data-bs-target="`accordion-${groupOption.id}-collapse`"
-                                    aria-expanded="true"
-                                    :aria-controls="`accordion-${groupOption.id}-collapse`">
-                              {{ groupOption.name }}
-                            </button>
-                          </h2>
-                          <div :id="`accordion-${groupOption.id}-collapse`"
-                               class="accordion-collapse collapse show"
-                               :aria-labelledby="`accordion-${groupOption.id}-heading`"
-                               :data-bs-parent="`#accordion-${groupOption.id}`">
-                            <div class="accordion-body">
-                              <div class="mb-3 form-check" v-for="optionValue in groupOption.optionValues">
-                                <input type="checkbox" class="form-check-input"
-                                       :id="`accordion-${groupOption.id}-option-value-${optionValue.id}`">
-                                <label class="form-check-label"
-                                       :for="`accordion-${groupOption.id}-option-value-${optionValue.id}`">
-                                  {{ optionValue.value }}
-                                </label>
-                              </div>
-                            </div>
+                <template v-if="property.id === 78">
+                  <ul class="nav nav-tabs" :id="`tab-property-${property.id}`" role="tablist">
+                    <li class="nav-item" role="presentation" v-for="(option, index) in property.groupOptions">
+                      <button :class="`${index === 0 ? 'nav-link active' : 'nav-link'}`"
+                              :id="`${option.id}-tab`"
+                              data-bs-toggle="tab"
+                              :data-bs-target="`#${option.id}-tab-pane`"
+                              type="button"
+                              role="tab"
+                              :aria-controls="`${option.id}-tab-pane`"
+                              aria-selected="false">
+                        {{ option.name }}
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" :id="`tab-property-${property.id}-content`" v-for="(option, index) in property.groupOptions">
+                    <div :class="`${index === 0 ? 'tab-pane fade show active' : 'tab-pane fade'}`"
+                         :id="`${option.id}-tab-pane`"
+                         role="tabpanel"
+                         :aria-labelledby="`${option.id}-tab`"
+                         tabindex="0">
+                      <div class="row">
+                        <div class="col-md-4" v-for="optionValue in option.optionValues">
+                          <div class="mb-3 form-check">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   :id="`checkbox-${option.id}-option-value-${optionValue.id}`">
+                            <label class="form-check-label"
+                                   :for="`checkbox-${option.id}-option-value-${optionValue.id}`">
+                              {{ optionValue.value }}
+                            </label>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </template>
-
+                  </div>
                 </template>
-
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
