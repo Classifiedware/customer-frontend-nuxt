@@ -132,16 +132,19 @@
 <script>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import {defineNuxtComponent} from "nuxt/app";
+import { defineNuxtComponent } from "nuxt/app";
+import SearchService from "../service/search.service";
+
+const searchService = new SearchService();
 
 export default defineNuxtComponent({
   components: {Footer, Header},
   fetchKey: 'properties',
   async asyncData() {
-    const propertiesResponse = await $fetch('http://classifiedware-api.test/customer-frontend-api/search/property/options');
+    const response = await searchService.searchProperties();
 
     return {
-      properties: propertiesResponse.data
+      properties: response.data
     }
   }
 })

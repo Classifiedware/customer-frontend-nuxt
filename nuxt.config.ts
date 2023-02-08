@@ -1,6 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     debug: true,
+    runtimeConfig: {
+      apiSecret: '123',
+      public: {
+        apiUrl: 'http://classifiedware-api.test/customer-frontend-api',
+      },
+    },
     css: [
         '@/assets/css/main.scss',
     ],
