@@ -10,7 +10,7 @@ export default class SearchService {
         return await $fetch(`${config.public.apiUrl}/search/property/options`)
             .then((response: any) => {
                 return { data: response.data.map((data: any) => this.createFromPropertyFromData(data)) };
-            }).catch((error) => {
+            }).catch(() => {
                 return { data: [] };
             });
     }
