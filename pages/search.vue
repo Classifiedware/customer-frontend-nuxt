@@ -143,6 +143,8 @@ export default defineNuxtComponent({
   async asyncData() {
     const response = await searchService.searchProperties();
 
+    console.log('response', response);
+
     return {
       properties: response.data
     }
