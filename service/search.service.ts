@@ -9,13 +9,13 @@ export default class SearchService {
 
         return await $fetch(`${config.public.apiUrl}/search/property/options`)
             .then((response: any) => {
-                return { data: response.data.map((data: any) => this.createFromPropertyFromData(data)) };
+                return { data: response.data.map((data: any) => this.createPropertyFromData(data)) };
             }).catch(() => {
                 return { data: [] };
             });
     }
 
-    createFromPropertyFromData(data: any): IProperty {
+    createPropertyFromData(data: any): IProperty {
         let groupOptions: IGroupOption[] = [];
 
         data.groupOptions.forEach((groupOptionRow: any) => {
