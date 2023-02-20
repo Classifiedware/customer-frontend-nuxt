@@ -173,22 +173,18 @@
 <script setup>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import {defineNuxtComponent} from "nuxt/app";
-import { ref } from 'vue';
+import {ref} from 'vue';
 import SearchService from "../service/search.service";
 
 const searchService = new SearchService();
 
-const { data: properties } = await searchService.searchProperties();
+const {data: properties} = await searchService.searchProperties();
 
 const checkboxIds = ref([]);
-const selectIds = ref([]);
 
 async function searchClassifieds() {
-  const response = await searchService.searchClassifieds(properties);
+  const response = await searchService.searchClassifieds(properties, checkboxIds);
 
-  console.log('checkbox ids', checkboxIds);
-
-  //console.log('search classifieds', response, properties);
+  //console.log('search classifieds', response);
 }
 </script>

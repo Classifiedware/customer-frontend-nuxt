@@ -1,4 +1,5 @@
 import { useRuntimeConfig } from "nuxt/app";
+import { ref } from 'vue';
 import { IProperty } from "~/types/property";
 import { IGroupOption } from "~/types/groupOption";
 import { IOptionValue } from "~/types/optionValue";
@@ -15,25 +16,29 @@ export default class SearchService {
             });
     }
 
-    async searchClassifieds(properties: any) {
-        let optionValueIds = [];
+    async searchClassifieds(properties: any, checkboxIds: any) {
+        console.log('search classifieds', this.mapGroupOptionValueIds(properties, checkboxIds));
+    }
 
-        console.log('properties', properties);
+    mapGroupOptionValueIds(properties: any, checkboxIds: any) {
+        console.log('checkbox ids', checkboxIds);
+
+        let optionValueIds = ref([]);
 
         properties.forEach((property: IProperty) => {
             property.groupOptions.forEach((groupOption: IGroupOption) => {
 
                 if (groupOption.optionValueSelectFirst) {
-                    optionValueIds.push(groupOption.optionValueSelectFirst);
+                    optionValueIds.value.push(groupOption.optionValueSelectFirst);
                 }
 
                 if (groupOption.optionValueSelectSecond) {
-                    optionValueIds.push(groupOption.optionValueSelectSecond);
+                    optionValueIds.value.push(groupOption.optionValueSelectSecond);
                 }
             });
         });
 
-        console.log('search classifieds', optionValueIds);
+        return checkboxIds.value.concat(optionValueIds.value);
     }
 
     createPropertyFromData(data: any): IProperty {
