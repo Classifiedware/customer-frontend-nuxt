@@ -22,14 +22,13 @@ export default class SearchService {
 
         properties.forEach((property: IProperty) => {
             property.groupOptions.forEach((groupOption: IGroupOption) => {
-                if (Array.isArray(groupOption.optionValuesSearch)) {
-                    //console.log('search', groupOption.optionValuesSearch);
 
-                    groupOption.optionValuesSearch.forEach((searchOption: IOptionValue) => {
-                        optionValueIds.push(searchOption);
-                    });
-                } else {
-                    optionValueIds.push(groupOption.optionValuesSearch);
+                if (groupOption.optionValueSelectFirst) {
+                    optionValueIds.push(groupOption.optionValueSelectFirst);
+                }
+
+                if (groupOption.optionValueSelectSecond) {
+                    optionValueIds.push(groupOption.optionValueSelectSecond);
                 }
             });
         });
@@ -59,7 +58,8 @@ export default class SearchService {
               type: groupOptionRow.type,
               id: groupOptionRow.id,
               optionValues: optionValues,
-              optionValuesSearch: [],
+              optionValueSelectFirst: null,
+              optionValueSelectSecond: null,
             };
 
             groupOptions.push(groupOption);

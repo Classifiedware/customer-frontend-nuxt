@@ -49,7 +49,7 @@
                           <span class="input-group-text">{{ groupOption.name }}</span>
                           <select :id="`select-${groupOption.id}`"
                                   class="form-select"
-                                  v-model="groupOption.optionValuesSearch">
+                                  v-model="groupOption.optionValueSelectFirst">
                             <option value="">beliebig</option>
                             <option v-for="optionValue in groupOption.optionValues"
                                     :value="optionValue.id">
@@ -68,7 +68,7 @@
                           <span class="input-group-text">von</span>
                           <select :id="`selectRange-${groupOption.id}-from`"
                                   class="form-select"
-                                  v-model="groupOption.optionValuesSearch">
+                                  v-model="groupOption.optionValueSelectFirst">
                             <option value="">beliebig</option>
                             <option v-for="optionValue in groupOption.optionValues"
                                     :value="optionValue.id">
@@ -83,7 +83,7 @@
                           <span class="input-group-text">bis</span>
                           <select :id="`selectRange-${groupOption.id}-to`"
                                   class="form-select"
-                                  v-model="groupOption.optionValuesSearch">
+                                  v-model="groupOption.optionValueSelectSecond">
                             <option value="">beliebig</option>
                             <option v-for="optionValue in groupOption.optionValues"
                                     :value="optionValue.id">
