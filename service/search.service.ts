@@ -15,6 +15,10 @@ export default class SearchService {
             });
     }
 
+    async searchClassifieds() {
+        console.log('search classifieds');
+    }
+
     createPropertyFromData(data: any): IProperty {
         let groupOptions: IGroupOption[] = [];
 

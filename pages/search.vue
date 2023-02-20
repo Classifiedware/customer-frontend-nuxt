@@ -5,6 +5,20 @@
     <div class="container my-5">
       <div class="row">
 
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <button type="button" class="btn btn-light float-start">Suche zurücksetzen</button>
+                  <button type="button" class="btn btn-primary float-end" @click="searchClassifieds">Jetzt Suchen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="col-12 mt-4" v-for="property in properties">
           <div class="card">
             <div class="card-body">
@@ -132,14 +146,29 @@
 <script>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { defineNuxtComponent } from "nuxt/app";
+import {defineNuxtComponent} from "nuxt/app";
 import SearchService from "../service/search.service";
 
 const searchService = new SearchService();
+const selectedPropertyGroupOptionValuesIds = [];
 
 export default defineNuxtComponent({
   components: {Footer, Header},
   fetchKey: 'properties',
+  methods: {
+    async searchClassifieds() {
+      const response = await searchService.searchClassifieds();
+
+      console.log('search classifieds', response, selectedPropertyGroupOptionValuesIds);
+    }
+  },
+
+  data() {
+    return {
+      selectedPropertyGroupOptionValuesIds
+    }
+  },
+
   async asyncData() {
     const response = await searchService.searchProperties();
 
