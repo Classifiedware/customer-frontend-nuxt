@@ -35,7 +35,7 @@
                                  class="form-check-input"
                                  :value="groupOption.id"
                                  :id="`checkbox-${groupOption.id}`"
-                                 v-model="selectedPropertyGroupOptionValuesIds">
+                                 v-model="propertyGroupOptionValuesIdsCheckbox">
                           <label class="form-check-label" :for="`checkbox-${groupOption.id}`">{{
                               groupOption.name
                             }}</label>
@@ -47,9 +47,11 @@
                       <div class="col-md-4 col-sm-6">
                         <div class="input-group mb-3">
                           <span class="input-group-text">{{ groupOption.name }}</span>
-                          <select :id="`select-${groupOption.id}`" class="form-select">
+                          <select :id="`select-${groupOption.id}`"
+                                  class="form-select"
+                                  v-model="propertyGroupOptionValuesIdsSelect">
                             <option value="">beliebig</option>
-                            <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                            <option v-for="optionValue in groupOption.optionValues" :value="groupOption.id">{{ optionValue.value }}</option>
                           </select>
                         </div>
                       </div>
@@ -159,7 +161,8 @@ import SearchService from "../service/search.service";
 import { ref } from 'vue';
 
 const searchService = new SearchService();
-const selectedPropertyGroupOptionValuesIds = ref([]);
+const propertyGroupOptionValuesIdsCheckbox = ref([]);
+const propertyGroupOptionValuesIdsSelect = ref([]);
 
 export default defineNuxtComponent({
   components: {Footer, Header},
@@ -168,13 +171,14 @@ export default defineNuxtComponent({
     async searchClassifieds() {
       const response = await searchService.searchClassifieds();
 
-      console.log('search classifieds', response, selectedPropertyGroupOptionValuesIds);
+      console.log('search classifieds', response, propertyGroupOptionValuesIdsCheckbox, propertyGroupOptionValuesIdsSelect);
     }
   },
 
   data() {
     return {
-      selectedPropertyGroupOptionValuesIds
+      propertyGroupOptionValuesIdsCheckbox,
+      propertyGroupOptionValuesIdsSelect,
     }
   },
 
