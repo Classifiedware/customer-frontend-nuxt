@@ -35,7 +35,7 @@
                                  class="form-check-input"
                                  :value="groupOption.id"
                                  :id="`checkbox-${groupOption.id}`"
-                                 v-model="propertyGroupOptionValuesIdsCheckbox">
+                                 v-model="checkboxIds">
                           <label class="form-check-label" :for="`checkbox-${groupOption.id}`">{{
                               groupOption.name
                             }}</label>
@@ -49,9 +49,12 @@
                           <span class="input-group-text">{{ groupOption.name }}</span>
                           <select :id="`select-${groupOption.id}`"
                                   class="form-select"
-                                  v-model="propertyGroupOptionValuesIdsSelect">
+                                  v-model="groupOption.optionValuesSearch">
                             <option value="">beliebig</option>
-                            <option v-for="optionValue in groupOption.optionValues" :value="groupOption.id">{{ optionValue.value }}</option>
+                            <option v-for="optionValue in groupOption.optionValues"
+                                    :value="optionValue.id">
+                              {{ optionValue.value }}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -63,9 +66,14 @@
                       <div class="col-md-3 col-sm-6">
                         <div class="input-group mb-3">
                           <span class="input-group-text">von</span>
-                          <select :id="`selectRange-${groupOption.id}-from`" class="form-select">
+                          <select :id="`selectRange-${groupOption.id}-from`"
+                                  class="form-select"
+                                  v-model="groupOption.optionValuesSearch">
                             <option value="">beliebig</option>
-                            <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                            <option v-for="optionValue in groupOption.optionValues"
+                                    :value="optionValue.id">
+                              {{ optionValue.value }}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -73,9 +81,14 @@
                       <div class="col-md-3 col-sm-6">
                         <div class="input-group mb-3">
                           <span class="input-group-text">bis</span>
-                          <select :id="`selectRange-${groupOption.id}-to`" class="form-select">
+                          <select :id="`selectRange-${groupOption.id}-to`"
+                                  class="form-select"
+                                  v-model="groupOption.optionValuesSearch">
                             <option value="">beliebig</option>
-                            <option v-for="optionValue in groupOption.optionValues">{{ optionValue.value }}</option>
+                            <option v-for="optionValue in groupOption.optionValues"
+                                    :value="optionValue.id">
+                              {{ optionValue.value }}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -88,7 +101,9 @@
                         <div class="mb-3 form-check">
                           <input type="checkbox"
                                  class="form-check-input"
-                                 :id="`checkbox-${groupOption.id}-option-value-${optionValue.id}`">
+                                 :value="optionValue.id"
+                                 :id="`checkbox-${groupOption.id}-option-value-${optionValue.id}`"
+                                 v-model="checkboxIds">
                           <label class="form-check-label"
                                  :for="`checkbox-${groupOption.id}-option-value-${optionValue.id}`">
                             {{ optionValue.value }}
@@ -125,7 +140,9 @@
                             <div class="mb-3 form-check">
                               <input type="checkbox"
                                      class="form-check-input"
-                                     :id="`checkbox-${option.id}-option-value-${optionValue.id}`">
+                                     :value="optionValue.id"
+                                     :id="`checkbox-${option.id}-option-value-${optionValue.id}`"
+                                     v-model="checkboxIds">
                               <label class="form-check-label"
                                      :for="`checkbox-${option.id}-option-value-${optionValue.id}`">
                                 {{ optionValue.value }}
@@ -153,43 +170,25 @@
   </main>
 
 </template>
-<script>
+<script setup>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {defineNuxtComponent} from "nuxt/app";
-import SearchService from "../service/search.service";
 import { ref } from 'vue';
+import SearchService from "../service/search.service";
 
 const searchService = new SearchService();
-const propertyGroupOptionValuesIdsCheckbox = ref([]);
-const propertyGroupOptionValuesIdsSelect = ref([]);
 
-export default defineNuxtComponent({
-  components: {Footer, Header},
-  fetchKey: 'properties',
-  methods: {
-    async searchClassifieds() {
-      const response = await searchService.searchClassifieds();
+const { data: properties } = await searchService.searchProperties();
 
-      console.log('search classifieds', response, propertyGroupOptionValuesIdsCheckbox, propertyGroupOptionValuesIdsSelect);
-    }
-  },
+const checkboxIds = ref([]);
+const selectIds = ref([]);
 
-  data() {
-    return {
-      propertyGroupOptionValuesIdsCheckbox,
-      propertyGroupOptionValuesIdsSelect,
-    }
-  },
+async function searchClassifieds() {
+  const response = await searchService.searchClassifieds(properties);
 
-  async asyncData() {
-    const response = await searchService.searchProperties();
+  console.log('checkbox ids', checkboxIds);
 
-    console.log('response', response);
-
-    return {
-      properties: response.data
-    }
-  }
-})
+  //console.log('search classifieds', response, properties);
+}
 </script>

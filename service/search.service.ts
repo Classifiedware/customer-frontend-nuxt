@@ -15,8 +15,26 @@ export default class SearchService {
             });
     }
 
-    async searchClassifieds() {
-        console.log('search classifieds');
+    async searchClassifieds(properties: any) {
+        let optionValueIds = [];
+
+        console.log('properties', properties);
+
+        properties.forEach((property: IProperty) => {
+            property.groupOptions.forEach((groupOption: IGroupOption) => {
+                if (Array.isArray(groupOption.optionValuesSearch)) {
+                    //console.log('search', groupOption.optionValuesSearch);
+
+                    groupOption.optionValuesSearch.forEach((searchOption: IOptionValue) => {
+                        optionValueIds.push(searchOption);
+                    });
+                } else {
+                    optionValueIds.push(groupOption.optionValuesSearch);
+                }
+            });
+        });
+
+        console.log('search classifieds', optionValueIds);
     }
 
     createPropertyFromData(data: any): IProperty {
@@ -25,20 +43,23 @@ export default class SearchService {
         data.groupOptions.forEach((groupOptionRow: any) => {
             let optionValues: IOptionValue[] = [];
 
-            groupOptionRow.optionValues.forEach((optionValueRow: any) => {
-               const optionValue: IOptionValue = {
-                 value: optionValueRow.value,
-                 id: optionValueRow.id,
-               };
+            if (groupOptionRow.optionValues) {
+                groupOptionRow.optionValues.forEach((optionValueRow: any) => {
+                    const optionValue: IOptionValue = {
+                        value: optionValueRow.value,
+                        id: optionValueRow.id,
+                    };
 
-               optionValues.push(optionValue);
-            });
+                    optionValues.push(optionValue);
+                });
+            }
 
             const groupOption: IGroupOption = {
               name: groupOptionRow.name,
               type: groupOptionRow.type,
               id: groupOptionRow.id,
               optionValues: optionValues,
+              optionValuesSearch: [],
             };
 
             groupOptions.push(groupOption);

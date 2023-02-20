@@ -5,4 +5,5 @@ export interface IGroupOption {
     type: string,
     id: number,
     optionValues: IOptionValue[],
+    optionValuesSearch: IOptionValue[],
 }
