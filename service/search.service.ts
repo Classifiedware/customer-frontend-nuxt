@@ -16,31 +16,6 @@ export default class SearchService {
             });
     }
 
-    async searchClassifieds(properties: any, checkboxIds: any) {
-        console.log('search classifieds', this.mapGroupOptionValueIds(properties, checkboxIds));
-    }
-
-    mapGroupOptionValueIds(properties: any, checkboxIds: any) {
-        console.log('checkbox ids', checkboxIds);
-
-        let optionValueIds = ref([]);
-
-        properties.forEach((property: IProperty) => {
-            property.groupOptions.forEach((groupOption: IGroupOption) => {
-
-                if (groupOption.optionValueSelectFirst) {
-                    optionValueIds.value.push(groupOption.optionValueSelectFirst);
-                }
-
-                if (groupOption.optionValueSelectSecond) {
-                    optionValueIds.value.push(groupOption.optionValueSelectSecond);
-                }
-            });
-        });
-
-        return checkboxIds.value.concat(optionValueIds.value);
-    }
-
     createPropertyFromData(data: any): IProperty {
         let groupOptions: IGroupOption[] = [];
 
