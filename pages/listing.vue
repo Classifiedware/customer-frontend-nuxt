@@ -147,14 +147,15 @@ const classifiedSearchService = new ClassifiedSearchService();
 
 const {data: properties} = await searchService.searchProperties();
 
-const checkboxIds = ref(route.query['pIds[]']);
+const checkboxIds = ref(route.query['pIds[]'] || []);
+
+console.log('ids', checkboxIds.value)
 
 const { data: classifieds } = await useAsyncData(
     'classifieds',
     () => classifiedSearchService.searchClassifieds(properties, checkboxIds),
     {
       watch: [
-          properties,
           checkboxIds
       ]
     }
