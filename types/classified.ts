@@ -4,7 +4,7 @@ export interface IClassified {
     id: number,
     name: string,
     description: string,
-    price: number,
+    price: string,
     offerNumber: string,
     options: IClassifiedOption[],
 }

@@ -59,14 +59,14 @@
             </div>
           </div>
           <div class="col-sm-8">
-            <div class="card">
+            <div class="card" v-for="classified in classifieds.data">
               <div class="card-body">
                 <div class="row">
                   <div class="col-4">
                     <div class="classified-image-block">
                       <img class="img-responsive"
-                           src="https://via.placeholder.com/240x180.png?text=Test+Car"
-                           alt="BMW 540i Luxury Line LCProf ACC LED DAB HiFi Leder">
+                           :src="`https://via.placeholder.com/240x180.png?text=${classified.name}`"
+                           :alt="classified.name">
                     </div>
                   </div>
 
@@ -74,24 +74,21 @@
                     <div class="row">
                       <div class="col-7">
                         <div class="classified-title-block">
-                          <span class="h3 text-break">BMW 540i Luxury Line LCProf ACC LED DAB HiFi Leder</span>
+                          <span class="h3 text-break">{{ classified.name }}</span>
                         </div>
                       </div>
 
                       <div class="col-5">
                         <div class="classified-price-block">
-                          <span class="h3">80.123 €</span>
+                          <span class="h3">{{ classified.price }} €</span>
                         </div>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-12">
-                        <div class="classified-data">
-                          <div>EZ 01/2023, 10.560 km, 250 kW (340 PS)</div>
-                          <div>Jahreswagen, Limousine, <b>Unfallfrei</b>, Hybrid (Benzin/Elektro),
-                            Automatik, HU 01/2027, 4/5 Türen
-                          </div>
+                        <div class="row">
+                          <div class="col-md-6" v-for="option in classified.options">{{ option.optionName }}: {{ option.value }}</div>
                         </div>
                       </div>
 
@@ -119,8 +116,11 @@
                 </div>
               </div>
             </div>
+
+
           </div>
         </div>
+
       </div>
     </div>
 
@@ -131,11 +131,33 @@
   </main>
 
 </template>
-<script>
+<script setup>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import {ref} from 'vue';
+import { useRoute, useAsyncData } from 'nuxt/app';
 
-export default {
-  components: {Footer, Header}
+import SearchService from "../service/search.service";
+import ClassifiedSearchService from "../service/classified.search.service";
+
+const route = useRoute();
+
+const searchService = new SearchService();
+const classifiedSearchService = new ClassifiedSearchService();
+
+const {data: properties} = await searchService.searchProperties();
+
+const checkboxIds = ref(route.query['pIds[]']);
+
+const { data: classifieds } = await useAsyncData('classifieds', () => classifiedSearchService.searchClassifieds(properties, checkboxIds));
+
+console.log('classifieds', classifieds.value);
+
+/*async function searchClassifieds() {
+  const response = await classifiedSearchService.searchClassifieds(properties, checkboxIds);
+
+  console.log('search classifieds', response);
 }
+
+searchClassifieds();*/
 </script>

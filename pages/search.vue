@@ -174,19 +174,18 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {ref} from 'vue';
-import SearchService from "../service/search.service";
-import ClassifiedSearchService from "../service/classified.search.service";
+import { useRouter } from 'nuxt/app';
 
+import SearchService from "../service/search.service";
+
+const router = useRouter();
 const searchService = new SearchService();
-const classifiedSearchService = new ClassifiedSearchService();
 
 const {data: properties} = await searchService.searchProperties();
 
 const checkboxIds = ref([]);
 
 async function searchClassifieds() {
-  const response = await classifiedSearchService.searchClassifieds(properties, checkboxIds);
-
-  console.log('search classifieds', response);
+  await router.push({ name: 'listing', query: { 'pIds[]': checkboxIds.value } })
 }
 </script>
