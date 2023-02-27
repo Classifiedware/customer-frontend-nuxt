@@ -149,15 +149,16 @@ const {data: properties} = await searchService.searchProperties();
 
 const checkboxIds = ref(route.query['pIds[]']);
 
-const { data: classifieds } = await useAsyncData('classifieds', () => classifiedSearchService.searchClassifieds(properties, checkboxIds));
+const { data: classifieds } = await useAsyncData(
+    'classifieds',
+    () => classifiedSearchService.searchClassifieds(properties, checkboxIds),
+    {
+      watch: [
+          properties,
+          checkboxIds
+      ]
+    }
+);
 
 console.log('classifieds', classifieds.value);
-
-/*async function searchClassifieds() {
-  const response = await classifiedSearchService.searchClassifieds(properties, checkboxIds);
-
-  console.log('search classifieds', response);
-}
-
-searchClassifieds();*/
 </script>
