@@ -1,16 +1,12 @@
 import { useRuntimeConfig } from "nuxt/app";
-import { ref } from 'vue';
-import { IProperty } from "~/types/property";
-import { IGroupOption } from "~/types/groupOption";
 import { IClassified } from "~/types/classified";
 import { IClassifiedOption } from "~/types/classifiedOption";
 
 export default class ClassifiedSearchService {
-    async searchClassifieds(properties: any, checkboxIds: any): Promise<{ data: any } | { data: IClassified[] }> {
-        console.log('search classifieds', this.mapGroupOptionValueIds(properties, checkboxIds));
+    async searchClassifieds(properties: any, propertyGroupOptionValueIds: any): Promise<{ data: any } | { data: IClassified[] }> {
+        console.log('search classifieds', propertyGroupOptionValueIds);
 
         const config = useRuntimeConfig();
-        const propertyGroupOptionValueIds = this.mapGroupOptionValueIds(properties, checkboxIds);
 
         return await $fetch(`/search/classified`, {
             method: 'POST',
@@ -25,27 +21,6 @@ export default class ClassifiedSearchService {
             }).catch(() => {
                 return { data: [] };
             });
-    }
-
-    mapGroupOptionValueIds(properties: any, checkboxIds: any) {
-        console.log('checkbox ids', checkboxIds);
-
-        let optionValueIds = ref([]);
-
-        properties.forEach((property: IProperty) => {
-            property.groupOptions.forEach((groupOption: IGroupOption) => {
-
-                if (groupOption.optionValueSelectFirst) {
-                    optionValueIds.value.push(groupOption.optionValueSelectFirst);
-                }
-
-                if (groupOption.optionValueSelectSecond) {
-                    optionValueIds.value.push(groupOption.optionValueSelectSecond);
-                }
-            });
-        });
-
-        return checkboxIds.value.concat(optionValueIds.value);
     }
 
     createClassifiedFromData(data: any) {

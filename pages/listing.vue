@@ -253,6 +253,8 @@ console.log('ids', checkboxIds.value, selectIds.value)
 
 console.log('properties', properties);
 
+const propertyGroupOptionValueIds = ref([...checkboxIds.value, ...selectIds.value, ...selectIdsSecond.value]);
+
 properties.forEach((property) => {
   property.groupOptions.forEach((groupOption) => {
 
@@ -280,10 +282,10 @@ properties.forEach((property) => {
 
 const { data: classifieds } = await useAsyncData(
     'classifieds',
-    () => classifiedSearchService.searchClassifieds(properties, checkboxIds),
+    () => classifiedSearchService.searchClassifieds(properties, propertyGroupOptionValueIds.value),
     {
       watch: [
-          checkboxIds
+        checkboxIds
       ]
     }
 );
