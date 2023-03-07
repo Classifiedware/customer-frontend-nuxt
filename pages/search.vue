@@ -174,17 +174,49 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {ref} from 'vue';
+import {useRouter} from 'nuxt/app';
+
 import SearchService from "../service/search.service";
 
+const router = useRouter();
 const searchService = new SearchService();
 
 const {data: properties} = await searchService.searchProperties();
 
 const checkboxIds = ref([]);
+const selectIds = ref([]);
+const selectIdsSecond = ref([]);
 
 async function searchClassifieds() {
-  const response = await searchService.searchClassifieds(properties, checkboxIds);
+  properties.forEach((property) => {
+    property.groupOptions.forEach((groupOption) => {
+      if (groupOption.optionValueSelectFirst) {
+        selectIds.value.push(groupOption.optionValueSelectFirst);
+      }
 
-  //console.log('search classifieds', response);
+      if (groupOption.optionValueSelectSecond) {
+        selectIdsSecond.value.push(groupOption.optionValueSelectSecond);
+      }
+    })
+  });
+
+  const routerQuery = ref([]);
+
+  if (checkboxIds.value.length) {
+    routerQuery.value.pIds = checkboxIds.value.join(',');
+  }
+
+  if (selectIds.value.length) {
+    routerQuery.value.sIds = selectIds.value.join(',');
+  }
+
+  if (selectIdsSecond.value.length) {
+    routerQuery.value.sIdsS = selectIdsSecond.value.join(',');
+  }
+
+  await router.push({
+    name: 'listing',
+    query: routerQuery.value,
+  })
 }
 </script>
