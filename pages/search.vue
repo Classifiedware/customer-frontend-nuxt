@@ -200,13 +200,23 @@ async function searchClassifieds() {
     })
   });
 
+  const routerQuery = ref([]);
+
+  if (checkboxIds.value.length) {
+    routerQuery.value.pIds = checkboxIds.value.join(',');
+  }
+
+  if (selectIds.value.length) {
+    routerQuery.value.sIds = selectIds.value.join(',');
+  }
+
+  if (selectIdsSecond.value.length) {
+    routerQuery.value.sIdsS = selectIdsSecond.value.join(',');
+  }
+
   await router.push({
     name: 'listing',
-    query: {
-      'pIds': checkboxIds.value.join(','),
-      'sIds': selectIds.value.join(','),
-      'sIdsS': selectIdsSecond.value.join(','),
-    }
+    query: routerQuery.value,
   })
 }
 </script>
