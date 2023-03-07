@@ -184,8 +184,22 @@ const searchService = new SearchService();
 const {data: properties} = await searchService.searchProperties();
 
 const checkboxIds = ref([]);
+const selectIds = ref([]);
+const selectIdsSecond = ref([]);
 
 async function searchClassifieds() {
-  await router.push({ name: 'listing', query: { 'pIds[]': checkboxIds.value } })
+  properties.forEach((property) => {
+    property.groupOptions.forEach((groupOption) => {
+      if (groupOption.optionValueSelectFirst) {
+        selectIds.value.push(groupOption.optionValueSelectFirst);
+      }
+
+      if (groupOption.optionValueSelectSecond) {
+        selectIdsSecond.value.push(groupOption.optionValueSelectSecond);
+      }
+    })
+  });
+
+  await router.push({ name: 'listing', query: { 'pIds[]': checkboxIds.value, 'sIds[]': selectIds.value, 'sIdsS[]': selectIdsSecond.value } })
 }
 </script>

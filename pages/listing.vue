@@ -246,8 +246,37 @@ const classifiedSearchService = new ClassifiedSearchService();
 const {data: properties} = await searchService.searchProperties();
 
 const checkboxIds = ref(route.query['pIds[]'] || []);
+const selectIds = ref(route.query['sIds[]'] || []);
+const selectIdsSecond = ref(route.query['sIdsS[]'] || []);
 
-console.log('ids', checkboxIds.value)
+console.log('ids', checkboxIds.value, selectIds.value)
+
+console.log('properties', properties);
+
+properties.forEach((property) => {
+  property.groupOptions.forEach((groupOption) => {
+
+    groupOption.optionValues.forEach((optionValue) => {
+      selectIds.value.forEach((selectId) => {
+        if (selectId == optionValue.id) {
+          console.log('it works')
+
+          groupOption.optionValueSelectFirst = optionValue.id;
+        }
+      });
+
+      selectIdsSecond.value.forEach((selectId) => {
+        if (selectId == optionValue.id) {
+          console.log('it works')
+
+          groupOption.optionValueSelectSecond = optionValue.id;
+        }
+      });
+
+
+    })
+  })
+});
 
 const { data: classifieds } = await useAsyncData(
     'classifieds',
