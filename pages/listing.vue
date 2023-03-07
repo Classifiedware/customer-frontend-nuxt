@@ -271,9 +271,6 @@ properties.forEach((property) => {
   property.groupOptions.forEach((groupOption) => {
 
     groupOption.optionValues.forEach((optionValue) => {
-      // todo fix selectIds and selectIdsSecond not array if only one value
-      // make sure these values are always arrays even if only containing 1 element
-
       selectIds.value.forEach((selectId) => {
         if (selectId == optionValue.id) {
           console.log('it works')
