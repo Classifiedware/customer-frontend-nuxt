@@ -174,7 +174,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {ref} from 'vue';
-import { useRouter } from 'nuxt/app';
+import {useRouter} from 'nuxt/app';
 
 import SearchService from "../service/search.service";
 
@@ -200,6 +200,13 @@ async function searchClassifieds() {
     })
   });
 
-  await router.push({ name: 'listing', query: { 'pIds[]': checkboxIds.value, 'sIds[]': selectIds.value, 'sIdsS[]': selectIdsSecond.value } })
+  await router.push({
+    name: 'listing',
+    query: {
+      'pIds': checkboxIds.value.join(','),
+      'sIds': selectIds.value.join(','),
+      'sIdsS': selectIdsSecond.value.join(','),
+    }
+  })
 }
 </script>

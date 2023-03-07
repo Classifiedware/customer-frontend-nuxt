@@ -245,11 +245,23 @@ const classifiedSearchService = new ClassifiedSearchService();
 
 const {data: properties} = await searchService.searchProperties();
 
-const checkboxIds = ref(route.query['pIds[]'] || []);
-const selectIds = ref(route.query['sIds[]'] || []);
-const selectIdsSecond = ref(route.query['sIdsS[]'] || []);
+const checkboxIds = ref([]);
+const selectIds = ref([]);
+const selectIdsSecond = ref([]);
 
-console.log('ids', checkboxIds.value, selectIds.value)
+if (route.query['pIds']) {
+  checkboxIds.value = route.query['pIds'].split(',');
+}
+
+if (route.query['sIds']) {
+  selectIds.value = route.query['sIds'].split(',');
+}
+
+if (route.query['sIdsS']) {
+  selectIdsSecond.value = route.query['sIdsS'].split(',');
+}
+
+console.log('ids', checkboxIds.value, selectIds.value, selectIdsSecond.value)
 
 console.log('properties', properties);
 
