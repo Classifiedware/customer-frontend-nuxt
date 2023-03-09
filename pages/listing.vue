@@ -186,7 +186,15 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-md-6" v-for="option in classified.options">{{ option.optionName }}: {{ option.value }}</div>
+                          <div class="col-md-6" v-for="option in classified.options">
+                            <template v-if="option.value !== true && option.value !== false">
+                              {{ option.optionName }}: {{ option.value }}
+                            </template>
+
+                            <template v-else>
+                              {{ option.optionName }}
+                            </template>
+                          </div>
                         </div>
                       </div>
 
